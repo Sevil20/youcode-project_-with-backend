@@ -1,0 +1,101 @@
+﻿@model YouCode.Models.Entity.Blog
+
+
+<head>
+    <link rel="stylesheet" href="~/sweetalert2/sweetalert2.min.css">
+</head>
+<div style="padding: 120px 50px; flex-direction: row; display: flex; justify-content: space-evenly; flex-wrap: wrap">
+    <div class="container">
+        <div class="col-lg-12 text-lg-center">
+            <h2>Create a New Blog</h2>
+            <br>
+            <br>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div>
+                    <div class="form-group row">
+                        <label for="inputNombre" class="col-lg-3 col-form-label">Name</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="blogName" placeholder="Blog Name" value="">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <label for="inputEmail" class="col-lg-3 col-form-label">Description</label>
+                        <div class="col-lg-9">
+                            <textarea class="form-control" id="blogDescription" placeholder="Blog Description"></textarea>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label"></label>
+                        <div class="col-lg-9">
+                            <button class="btn btn-primary " id="create">Create a Blog</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+@*                <img src="" class="img-fluid img-thumbnail rounded-2 m-auto" id="blogImage" alt="">
+*@                <h6 class="mt-2">Upload a different photo</h6>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="blogImage">
+                    <label class="custom-file-label" for="file">Choose file</label>
+                </div>
+            </div>
+        </div>
+        <hr class="my-5">
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById("create").addEventListener("click", function () {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, create it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                createBlog();
+            }
+        });
+    });
+    function createBlog() {
+        const blogName = document.getElementById("blogName").value;
+        const blogDescription = document.getElementById("blogDescription").value;
+        const blogImage = document.getElementById("blogImage").files[0]; // Use "file" instead of "blogImage"
+
+        // Create a FormData object to send the data
+        const formData = new FormData();
+        formData.append("blogName", blogName);
+        formData.append("blogDescription", blogDescription);
+        formData.append("blogImage", blogImage);
+
+        // Send the data to the server using Fetch API
+        fetch("/Blog/Create/", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                Swal.fire(
+                    'Success!',
+                    'Your blog has been created.',
+                    'success'
+                );
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Error!',
+                    'Something went wrong. Please try again.',
+                    'error'
+                );
+            });
+    }
+</script>
+

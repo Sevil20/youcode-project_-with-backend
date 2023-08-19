@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="~/sweetalert2/sweetalert2.min.css">
+    <style>
+        #editorContainer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .editor {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<main id="main" style="padding:120px 50px 50px 50px;">
+    <ul class="nav nav-tabs" style="padding-inline-start 0px">
+        <li class="nav-item">
+            <a class="nav-link active" href="#" id="btn-run">Run</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#" id="save">Save</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Comment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Disabled</a>
+        </li>
+    </ul>
+    <div id="editorContainer">
+        <div id="htmlEditor" class="editor"></div>
+        <div id="cssEditor" class="editor"></div>
+    </div>
+    <br />
+    <h5>Result</h5>
+    <br />
+    <div id="res" style="border:1px solid black; border-radius:12px; padding:10px;">
+    </div>
+</main>
+
+<script src="https://unpkg.com/monaco-editor@0.27.0/min/vs/loader.js"></script>
+<script>
+    let isHtml = true;
+    var htmlEditor;
+    var cssEditor;
+    require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.27.0/min/vs' } });
+    require(['vs/editor/editor.main'], function () {
+        htmlEditor = monaco.editor.create(document.getElementById('htmlEditor'), {
+            value: "<!DOCTYPE html>\n<html>\n<head>\n  <title>Monaco Editor Example</title>\n </head>\n<body>\n  <h1>Hello, World!</h1>\n</body>\n</html>",
+            language: "html",
+            theme: "vs-dark",
+             readOnly: false 
+        });
+
+        cssEditor = monaco.editor.create(document.getElementById('cssEditor'), {
+            value: "/* CSS kodunu buraya yazın */\nbody {\n  background-color: #f1f1f1;\n}\n\nh1 {\n  color: blue;\n  font-size: 24px;\n}",
+            language: "css",
+            theme: "vs-dark",
+             readOnly: false 
+        });
+    });
+ document.getElementById("btn-run").addEventListener("click", () => {
+        const element = document.getElementById("res");
+        let htmlCode = "<style>" + cssEditor.getValue().replace(/\n/g, "") + "</style>";
+        htmlCode += htmlEditor.getValue().replace(/\n/g, "");
+        element.innerHTML = htmlCode;
+    });
+
+
+ document.getElementById("save").addEventListener("click", () =>{
+        Swal.fire({
+            title: 'Enter your project name',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            showLoaderOnConfirm: true,
+            preConfirm: (login) => {
+                return fetch(`/CodeEditor/SaveProject`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: `Project saved successfully`
+                })
+            }
+        })
+    })
+
+</script>

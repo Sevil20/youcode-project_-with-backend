@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "owl-carousel@1.3.3",
+      "destination": "wwwroot/owl-carousel/"
+    },
+    {
+      "library": "font-awesome@6.4.0",
+      "destination": "wwwroot/font-awesome/"
+    },
+    {
+      "library": "bootstrap@5.3.0",
+      "destination": "wwwroot/bootstrap/"
+    },
+    {
+      "library": "jquery@3.7.0",
+      "destination": "wwwroot/jquery/"
+    },
+    {
+      "library": "codemirror@6.65.7",
+      "destination": "wwwroot/codemirror/"
+    },
+    {
+      "library": "bootstrap-rtl@3.4.0",
+      "destination": "wwwroot/bootstrap-rtl/"
+    },
+    {
+      "library": "bootstrap-icons@1.10.5",
+      "destination": "wwwroot/bootstrap-icons/"
+    },
+    {
+      "library": "aos@2.3.4",
+      "destination": "wwwroot/aos/"
+    },
+    {
+      "library": "glightbox@3.2.0",
+      "destination": "wwwroot/glightbox/"
+    },
+    {
+      "library": "Swiper@10.0.4",
+      "destination": "wwwroot/Swiper/"
+    },
+    {
+      "library": "isotope-packery@2.0.1",
+      "destination": "wwwroot/isotope-packery/"
+    },
+    {
+      "library": "jquery.isotope@3.0.6",
+      "destination": "wwwroot/jquery.isotope/"
+    },
+    {
+      "library": "pure.js@2.83",
+      "destination": "wwwroot/pure.js/"
+    },
+    {
+      "library": "sweetalert2@11.7.20",
+      "destination": "wwwroot/sweetalert2/"
+    },
+    {
+      "library": "monaco-editor@0.41.0",
+      "destination": "wwwroot/monaco-editor/"
+    }
+  ]
+}

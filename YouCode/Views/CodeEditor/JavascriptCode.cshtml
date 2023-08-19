@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <style>
+        .editor {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<main id="main" style="padding:120px 50px 20px 50px;">
+    <ul class="nav nav-tabs" style="padding-inline-start 0px">
+        <li class="nav-item">
+            <a class="nav-link active" href="#" id="btn-run">Run</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#" id="save">Save</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Comment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Disabled</a>
+        </li>
+    </ul>
+    <div id="editorContainer">
+        <div id="htmlEditor" class="editor"></div>
+    </div>
+    <br />
+    <h5>Result</h5>
+    <br />
+    <div id="res" style="border:1px solid black; border-radius:12px; padding:10px;">
+    </div>
+
+</main>
+
+<script src="https://unpkg.com/monaco-editor@0.27.0/min/vs/loader.js"></script>
+<script>
+    let isHtml = true;
+    var htmlEditor;
+    require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.27.0/min/vs' } });
+    require(['vs/editor/editor.main'], function () {
+        htmlEditor = monaco.editor.create(document.getElementById('htmlEditor'), {
+            value: "console.log('hello')",
+            language: "javascript",
+            theme: "vs-dark",
+            readOnly: false
+        });
+
+    });
+    document.getElementById("btn-run").addEventListener("click", () => {
+        const element = document.getElementById("res");
+        let htmlCode;
+        htmlCode = htmlEditor.getValue().replace(/\n/g, "");
+        element.innerHTML = htmlCode;
+    });
+
+
+    
+
+</script>
+
+
+
+
